@@ -1,0 +1,31 @@
+{
+  "name": "chaseday",
+  "version": "1.0.0",
+  "description": "https://puu.sh/CVK3o/3abf2e15dd.png \\ https://puu.sh/CVK3x/98537372d6.png \\ https://puu.sh/CVK3R/90926f5472.png \\ https://puu.sh/CVK45/fcd2f4ec00.png",
+  "main": "server.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "fs": "^0.0.1-security",
+    "method-override": "^3.0.0",
+    "sequelize-cli": "^5.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shdant113/ChaseDay.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shdant113/ChaseDay/issues"
+  },
+  "homepage": "https://github.com/shdant113/ChaseDay#readme"
+}

@@ -1,3 +1,4 @@
 endpoints.txt
 models.txt
 .env
+node_modules
