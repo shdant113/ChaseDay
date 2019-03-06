@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: true
     }
-  }, {});
+  }/*, {}*/);
   Log.associate = function(models) {
     // associations can be defined here
     Log.belongsTo(models.User, {

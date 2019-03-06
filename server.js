@@ -25,7 +25,10 @@ server.use(methodOverride('_method'));
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({extended: false}));
 
+// controllers
 const testController = require('./controllers/testController');
+const authController = require('./controllers/authController');
+server.use('/api/v1/auth', authController);
 server.use('/api/v1/test', testController);
 
 

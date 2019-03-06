@@ -47,7 +47,8 @@ module.exports = (sequelize, DataTypes) => {
     type: {
       type: DataTypes.STRING,
       defaultValue: 'active'
-  }, {});
+    }
+  }/*, {}*/);
   User.associate = function(models) {
     // associations can be defined here
     User.hasMany(models.Log, {

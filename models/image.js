@@ -1,12 +1,12 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Image = sequelize.define('Image', {
-		data: DataTypes.BLOB,
-		title: {
-			type: DataTypes.STRING,
-			defaultValue: null
-		}
-  }, {});
+	data: DataTypes.BLOB,
+	title: {
+		type: DataTypes.STRING,
+		defaultValue: null
+	}
+  }/*, {}*/);
   Image.associate = function(models) {
 	// associations can be defined here
 	Image.belongsTo(models.Log, {
