@@ -26,7 +26,7 @@ server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({extended: false}));
 
 
-const PORT = process.env.PORT || 9000
+const PORT = process.env.PORT || 3000
 
 server.listen(PORT, () => {
 	const date = new Date(Date.now())
