@@ -25,6 +25,9 @@ server.use(methodOverride('_method'));
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({extended: false}));
 
+const testController = require('./controllers/testController');
+server.use('/api/v1/test', testController);
+
 
 const PORT = process.env.PORT || 3000
 
