@@ -35,11 +35,11 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
-        references: {
-          model: 'User',
-          key: 'id',
-          as: 'userId'
-        }
+        // references: {
+        //   model: 'User',
+        //   key: 'id',
+        //   as: 'userId'
+        // }
       }
     });
   },
