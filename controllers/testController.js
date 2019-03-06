@@ -8,7 +8,6 @@ router.get('/', async (req, res, next) => {
 	try {
 		const test = await Test.findOne()
 		console.log(test)
-		return test
 	} catch (err) {
 		console.log(err)
 	}
@@ -21,7 +20,6 @@ router.post('/', async (req, res, next) => {
 		})
 		console.log('test created', test)
 		await test.save()
-		return test
 	} catch(err) {
 		console.log(err)
 	}

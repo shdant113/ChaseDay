@@ -18,7 +18,8 @@
     "pg-hstore": "^2.3.2",
     "pg-promise": "^5.9.7",
     "sequelize": "^4.43.0",
-    "sequelize-cli": "^5.4.0"
+    "sequelize-cli": "^5.4.0",
+    "sequelize-file": "^0.3.0"
   },
   "devDependencies": {},
   "scripts": {
