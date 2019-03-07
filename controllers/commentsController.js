@@ -102,8 +102,36 @@ router.put('/update_comment/:id', async (req, res, next) => {
 	}
 })
 
+  ////////////////////////
+ //* DELETE A COMMENT *//
+////////////////////////
 
-
+router.delete('/delete_comment/:id', async (req, res, next) => {
+	try {
+		const currentUser = await User.findOne({
+			attributes: ['id', 'username'],
+			where: { username: req.session.username }
+		})
+		const commentToDelete = await Comment.findOne({
+			where: { id: req.params.id }
+		})
+		if (currentUser.dataValues.id == commentToDelete.user_id) {
+			await commentToDelete.destroy()
+			res.json({
+				status: 200,
+				message: 'Comment erased.'
+			})
+		} else {
+			res.json({
+				status: 200,
+				message: 'Load no access page.'
+			})
+		}
+	} catch (err) {
+		console.log(err)
+		next(err)
+	}
+})
 
 
 
