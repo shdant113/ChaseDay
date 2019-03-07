@@ -34,6 +34,8 @@ const authController = require('./controllers/authController');
 const logsController = require('./controllers/logsController');
 const userController = require('./controllers/userController');
 const ratingsController = require('./controllers/ratingsController');
+const commentsController = require('./controllers/commentsController');
+server.use('/api/v1/chaseDay/comments', commentsController);
 server.use('/api/v1/chaseDay/ratings', ratingsController);
 server.use('/api/v1/chaseDay/user', userController);
 server.use('/api/v1/chaseDay/logs', logsController);

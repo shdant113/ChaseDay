@@ -4,6 +4,11 @@ const Rating = require('../models').Rating;
 const User = require('../models').User;
 const Log = require('../models').Log;
 
+
+  ////////////////
+ /* RATE A LOG */
+////////////////
+
 router.post('/rate/:type/:logid/:userid', async (req, res, next) => {
 	try {
 		const currentUser = await User.findOne({
@@ -29,6 +34,11 @@ router.post('/rate/:type/:logid/:userid', async (req, res, next) => {
 			res.json({
 				status: 200,
 				data: rating
+			})
+		} else {
+			res.json({
+				status: 200,
+				message: 'Load no access page.'
 			})
 		}
 	} catch (err) {

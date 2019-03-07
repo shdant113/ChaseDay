@@ -21,7 +21,7 @@ router.post('/register', async (req, res, next) => {
 		req.session.logged = true;
 		req.session.username = user.username;
 		req.session.password = user.password;
-		await res.json({
+		res.json({
 			status: 200,
 			data: {
 				user: user,
