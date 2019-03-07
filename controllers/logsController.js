@@ -8,6 +8,9 @@ router.get('/dashboard', async (req, res, next) => {
 	const currentUser = await User.findOne({
 		username: req.session.username
 	})
+	// console.log(currentUser)
+	// console.log(currentUser.dataValues.id)
+	// console.log("")
 	const date = new Date(Date.now());
 	const time = date.getTime();
 	const ninetyDaysTime = time - (90 * 24 * 60 * 60 * 1000);
@@ -16,27 +19,40 @@ router.get('/dashboard', async (req, res, next) => {
 	const logsToShow = [];
 	if (currentUser != null) {
 		try {
+			console.log("")
 			const followedUsers = await Follow.findAll({
-				where: { userId: currentUser._id }
+				attributes: ['id'],
+				where: { userId: currentUser.dataValues.id }
 			})
+			console.log('got past follow findall')
+			console.log("")
+			console.log("")
 			if (followedUsers != null) {
 				const date = new Date(Date.now());
 				const time = date.getTime();
 				const sevenDaysTime = time - (7 * 24 * 60 * 60 * 1000);
 				const sevenDaysAgo = date.setUTCDate(sevenDaysTime);
 				const logsByUser = [];
-				const logsByFollowedUsers = await Logs.findAll({
-					where: { 
-						userId: followedUsers._id
-					}
+				console.log('logsByFollowedUsers')
+				console.log("")
+				const logsByFollowedUsers = await Log.findAll({
+					attributes: ['id'],
+					where: { userId: followedUsers._id }
 				})
+				console.log("")
+				console.log('past logsByFollowedUsers')
+				console.log("")
 				logsByUser.push(logsByFollowedUsers)
 				for (let i = 0; i < logsByUser.length; i++) {
 					if (logsByUser[i].createdAt > sevenDaysAgo) {
 						logsToShow.push(logsByUser[i])
 					} 
 				}
-				const otherLogs = await Logs.findAll();
+				console.log("")
+				const otherLogs = await Log.findAll({
+					attributes: ['id']
+				});
+				console.log("past otherLogs")
 				allLogs.push(otherLogs);
 				for (let i = 0; i < allLogs.length; i++) {
 					if (allLogs[i].createdAt > ninetyDaysAgo) {
@@ -48,7 +64,9 @@ router.get('/dashboard', async (req, res, next) => {
 					data: logsToShow
 				})
 			} else {
-				const newLogs = await Logs.findAll();
+				const newLogs = await Log.findAll({
+					attributes: ['id']
+				});
 				allLogs.push(newLogs);
 				for (let i = 0; i < allLogs.length; i++) {
 					if (allLogs[i].createdAt > ninetyDaysAgo) {
@@ -66,7 +84,9 @@ router.get('/dashboard', async (req, res, next) => {
 		}
 	} else {
 		try {
-			const newLogs = await Logs.findAll();
+			const newLogs = await Log.findAll({
+				attributes: ['id']
+			});
 			allLogs.push(newLogs);
 			for (let i = 0; i < allLogs.length; i++) {
 				if (allLogs[i].createdAt > ninetyDaysAgo) {
