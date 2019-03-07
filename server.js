@@ -9,6 +9,8 @@ const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
+
+// requirements
 const sequelize = require('sequelize');
 const models = require('./models');
 
@@ -35,6 +37,8 @@ const logsController = require('./controllers/logsController');
 const userController = require('./controllers/userController');
 const ratingsController = require('./controllers/ratingsController');
 const commentsController = require('./controllers/commentsController');
+const followsController = require('./controllers/followsController');
+server.use('/api/v1/chaseDay/follows', followsController);
 server.use('/api/v1/chaseDay/comments', commentsController);
 server.use('/api/v1/chaseDay/ratings', ratingsController);
 server.use('/api/v1/chaseDay/user', userController);
