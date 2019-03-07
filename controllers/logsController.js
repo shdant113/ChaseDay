@@ -8,8 +8,6 @@ const Follow = require('../models').Follow;
  /* GET DASHBOARD */
 ///////////////////
 
-/* THIS ROUTE IS BUGGED OUT
-	it should work, but it doesn't for reasons myself and two others cannot seem to figure out */
 router.get('/dashboard', async (req, res, next) => {
 	const currentUser = await User.findOne({
 		username: req.session.username
@@ -19,44 +17,37 @@ router.get('/dashboard', async (req, res, next) => {
 	const time = date.getTime();
 	const ninetyDaysTime = time - (90 * 24 * 60 * 60 * 1000);
 	const ninetyDaysAgo = date.setUTCDate(ninetyDaysTime);
-	const allLogs = [];
-	const logsToShow = [];
 	if (currentUser != null) {
 		try {
 			console.log("")
 			const followedUsers = await Follow.findAll({
 				attributes: ['id'],
-				where: { userId: currentUser.dataValues.id }
+				where: { user_id: currentUser.dataValues.id }
 			})
+			// console.log(followedUsers)
 			if (followedUsers.length > 0) {
 				const sevenDaysTime = time - (7 * 24 * 60 * 60 * 1000);
 				const sevenDaysAgo = date.setUTCDate(sevenDaysTime);
-				const logsByUser = [];
-				const logsByFollowedUsers = await Log.findAll({
-					attributes: ['id', 'createdAt'],
-					where: { userId: followedUsers.dataValues.id }
+				const logsToShow = [];
+				const logsByUsers = await Log.findAll({
+					attributes: ['id', 'createdAt', 'user_id'],
+					where: { user_id: followedUsers.dataValues.id }
 				})
-				if (logsByFollowedUsers.length > 0) {
-					logsByUser.push(logsByFollowedUsers)
-				}
-				if (logsByUser.length > 0) {
-					for (let i = 0; i < logsByUser.length; i++) {
-						console.log(logsByUser[i])
-						if (logsByUser[i].dataValues.createdAt > sevenDaysAgo) {
+				if (logsByUsers.length > 0) {
+					for (let i = 0; i < logsByUsers.length; i++) {
+						console.log(logsByUsers[i])
+						if (logsByUsers[i].dataValues.createdAt > sevenDaysAgo) {
 							logsToShow.push(logsByUser[i])
 						}
 					}
 				}
 				const otherLogs = await Log.findAll({
-					attributes: ['id', 'createdAt']
+					attributes: ['id', 'createdAt', 'user_id']
 				});
 				if (otherLogs.length > 0) {
-					allLogs.push(otherLogs)
-				}
-				if (allLogs.length > 0) {
-					for (let i = 0; i < allLogs.length; i++) {
-						if (allLogs[i].dataValues.createdAt > ninetyDaysAgo) {
-							logsToShow.push(allLogs[i])
+					for (let i = 0; i < otherLogs.length; i++) {
+						if (otherLogs[i].dataValues.createdAt > ninetyDaysAgo) {
+							logsToShow.push(otherLogs[i])
 						}
 					}
 				}
@@ -66,24 +57,18 @@ router.get('/dashboard', async (req, res, next) => {
 				})
 			} else {
 				const newLogs = await Log.findAll({
-					attributes: ['createdAt']
+					attributes: ['id', 'createdAt', 'content', 'user_id']
 				});
 				if (newLogs.length > 0) {
-					allLogs.push(newLogs);
-				}
-				// console.log(allLogs[0].dataValues[0])
-				console.log(allLogs)
-				console.log(typeof allLogs[0].dataValues)
-				if (allLogs.length > 0) {
-					for (let i = 0; i < allLogs.length; i++) {
-						if (allLogs[i].dataValues.createdAt > ninetyDaysAgo) {
-							logsToShow.push(allLogs[i])
+					for (let i = 0; i < newLogs.length; i++) {
+						if (newLogs[i].dataValues.createdAt < ninetyDaysAgo) {
+							newLogs.splice(i, 1)
 						}
 					}
 				}
 				res.json({
 					status: 200,
-					data: logsToShow
+					data: newLogs
 				})
 			}
 		} catch (err) {
@@ -93,19 +78,18 @@ router.get('/dashboard', async (req, res, next) => {
 	} else {
 		try {
 			const newLogs = await Log.findAll({
-				attributes: ['id', 'createdAt']
+				attributes: ['id', 'createdAt', 'content', 'user_id']
 			});
-			allLogs.push(newLogs);
-			if (logsByUser.length > 0) {
-				for (let i = 0; i < allLogs.length; i++) {
-					if (allLogs[i].dataValues.createdAt > ninetyDaysAgo) {
-						logsToShow.push(allLogs[i])
+			if (newLogs.length > 0) {
+				for (let i = 0; i < newLogs.length; i++) {
+					if (newLogs[i].dataValues.createdAt < ninetyDaysAgo) {
+						newLogs.splice(i, 1)
 					}
 				}
 			}
 			res.json({
 				status: 200,
-				data: logsToShow
+				data: newLogs
 			})
 		} catch (err) {
 			console.log(err)
@@ -125,8 +109,9 @@ router.post('/new_log', async (req, res, next) => {
 		})
 		const createLog = await Log.create({
 			content: req.body.content,
-			// date: req.body.date,
-			// thumbnail: req.body.thumbnail
+			date: req.body.date,
+			thumbnail: req.body.thumbnail,
+			user_id: currentUser.dataValues.id
 		})
 		await res.json({
 			status: 200,
@@ -150,8 +135,9 @@ router.get('/edit_log/:id', async (req, res, next) => {
 		const currentUser = await User.findOne({
 			username: req.session.username
 		})
+		console.log(currentUser.username)
 		const getLog = await Log.findOne({
-			id: req.params.id
+			where: { id: req.params.id }
 		})
 		console.log("\n here is getLog from edit_log/:id, :id was " + req.params.id)
 		console.log(getLog)
@@ -166,7 +152,7 @@ router.get('/edit_log/:id', async (req, res, next) => {
 	}
 })
 
-router.put('/update_log', async (req, res, next) => {
+router.put('/update_log/:id', async (req, res, next) => {
 	try {
 		const logToUpdate = await Log.findOne({
 			attributes: ['id', 'content', 'date', 'thumbnail'],
@@ -176,7 +162,8 @@ router.put('/update_log', async (req, res, next) => {
 		const updateLog = await logToUpdate.updateAttributes({
 			content: req.body.content,
 			date: req.body.date,
-			thumbnail: req.body.thumbnail
+			thumbnail: req.body.thumbnail,
+			new: true
 		})
 		res.json({
 			status: 200,
