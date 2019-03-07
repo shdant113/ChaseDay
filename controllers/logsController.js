@@ -11,7 +11,7 @@ const Follow = require('../models').Follow;
 
 router.get('/dashboard', async (req, res, next) => {
 	const currentUser = await User.findOne({
-		username: req.session.username
+		where: { username: req.session.username }
 	})
 	console.log(currentUser.dataValues.id)
 	const date = new Date(Date.now());
@@ -106,7 +106,7 @@ router.get('/dashboard', async (req, res, next) => {
 router.post('/new_log', async (req, res, next) => {
 	try {
 		const currentUser = await User.findOne({
-			username: req.session.username
+			where: { username: req.session.username }
 		})
 		const createLog = await Log.create({
 			content: req.body.content,
@@ -134,7 +134,7 @@ router.post('/new_log', async (req, res, next) => {
 router.get('/edit_log/:id', async (req, res, next) => {
 	try {
 		const currentUser = await User.findOne({
-			username: req.session.username
+			where: { username: req.session.username }
 		})
 		console.log(currentUser.username)
 		const getLog = await Log.findOne({
@@ -156,7 +156,7 @@ router.get('/edit_log/:id', async (req, res, next) => {
 router.put('/update_log/:id', async (req, res, next) => {
 	try {
 		const currentUser = await User.findOne({
-			username: req.session.username
+			where: { username: req.session.username }
 		})
 		const logToUpdate = await Log.findOne({
 			attributes: ['id', 'content', 'date', 'thumbnail'],
@@ -186,7 +186,7 @@ router.put('/update_log/:id', async (req, res, next) => {
 router.put('/log_remove/:id', async (req, res, next) => {
 	try {
 		const currentUser = await User.findOne({
-			username: req.session.username
+			where: { username: req.session.username }
 		})
 		const logToRemove = await Log.findOne({
 			attributes: ['id', 'active'],

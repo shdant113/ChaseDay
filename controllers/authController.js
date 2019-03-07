@@ -41,7 +41,7 @@ router.post('/register', async (req, res, next) => {
 router.post('/login', async (req, res, next) => {
 	try {
 		const currentUser = await User.findOne({
-			username: req.body.username
+			where: { username: req.body.username }
 		})
 		if (currentUser == null) {
 			res.json({
@@ -52,11 +52,12 @@ router.post('/login', async (req, res, next) => {
 			if (bcrypt.compareSync(req.body.password, currentUser.password)) {
 				req.session._id = currentUser._id;
 				req.session.username = currentUser.username;
+				// console.log(req.session.username)
 				req.session.logged = true;
 				res.json({
 					status: 200,
 					data: {
-						show: `Welcome back, ${currentUser.username}.`,
+						show: `Welcome back, ${req.session.username}.`,
 						message: 'Login information correct'
 					}
 				})

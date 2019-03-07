@@ -151,6 +151,7 @@ router.put('/update_profile_settings/bio/:id', async (req, res, next) => {
 
 router.delete('/delete_user/:id', async (req, res, next) => {
 	try {
+		// need more security here
 		const userToDelete = await User.findOne({
 			where: { id: req.params.id }
 		})
