@@ -2,7 +2,7 @@
   "development": {
     "username": "sdant",
     "password": null,
-    "database": "chaseDay-test",
+    "database": "chaseDayDev",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },

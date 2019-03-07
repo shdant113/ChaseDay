@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
-const sequelize = require('sequelize');
 const User = require('../models').User;
 
   //////////////////
