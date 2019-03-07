@@ -32,6 +32,8 @@ server.use(bodyParser.urlencoded({extended: false}));
 const testController = require('./controllers/testController');
 const authController = require('./controllers/authController');
 const logsController = require('./controllers/logsController');
+const userController = require('./controllers/userController');
+server.use('/api/v1/chaseDay/user', userController);
 server.use('/api/v1/chaseDay/logs', logsController);
 server.use('/api/v1/chaseDay/auth', authController);
 server.use('/api/v1/test', testController);

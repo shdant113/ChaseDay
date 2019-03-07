@@ -4,6 +4,7 @@ const User = require('../models').User;
 const Log = require('../models').Log;
 const Follow = require('../models').Follow;
 
+
   ///////////////////
  /* GET DASHBOARD */
 ///////////////////
@@ -165,8 +166,7 @@ router.put('/update_log/:id', async (req, res, next) => {
 		const updateLog = await logToUpdate.updateAttributes({
 			content: req.body.content,
 			date: req.body.date,
-			thumbnail: req.body.thumbnail,
-			new: true
+			thumbnail: req.body.thumbnail
 		})
 		res.json({
 			status: 200,
