@@ -154,9 +154,12 @@ router.get('/edit_log/:id', async (req, res, next) => {
 
 router.put('/update_log/:id', async (req, res, next) => {
 	try {
+		const currentUser = await User.findOne({
+			username: req.session.username
+		})
 		const logToUpdate = await Log.findOne({
 			attributes: ['id', 'content', 'date', 'thumbnail'],
-			where: { id: req.params.id }
+			where: { id: req.params.id, user_id: currentUser.dataValues.id }
 		})
 		console.log(logToUpdate)
 		const updateLog = await logToUpdate.updateAttributes({
@@ -175,5 +178,33 @@ router.put('/update_log/:id', async (req, res, next) => {
 		next(err)
 	}
 })
+
+  ////////////////////
+ ///* REMOVE LOG *///
+////////////////////
+
+router.put('/log_remove/:id', async (req, res, next) => {
+	try {
+		const currentUser = await User.findOne({
+			username: req.session.username
+		})
+		const logToRemove = await Log.findOne({
+			attributes: ['id', 'active'],
+			where: { id: req.params.id, user_id: currentUser.dataValues.id }
+		})
+		const removeLog = await logToRemove.updateAttributes({
+			active: false
+		})
+		res.json({
+			status: 200,
+			data: removeLog,
+			message: `Removed log ${removeLog.id} from ${currentUser.username}'s profile.`
+		})
+	} catch (err) {
+		console.log(err)
+		next(err)
+	}
+})
+
 
 module.exports = router;
