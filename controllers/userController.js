@@ -145,6 +145,25 @@ router.put('/update_profile_settings/bio/:id', async (req, res, next) => {
 	}
 })
 
+  /////////////////////
+ ///* DELETE USER *///
+/////////////////////
+
+router.delete('/delete_user/:id', async (req, res, next) => {
+	try {
+		const userToDelete = await User.findOne({
+			where: { id: req.params.id }
+		})
+		await userToDelete.destroy();
+		res.json({
+			status: 200,
+			message: 'deleted user'
+		})
+	} catch (err) {
+		console.log(err)
+		next(err)
+	}
+})
 
 // edit profile photo, cover photo
 	// probably gonna need multer, do this when there is more time
