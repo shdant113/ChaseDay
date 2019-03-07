@@ -4,7 +4,7 @@ const Rating = require('../models').Rating;
 const User = require('../models').User;
 const Log = require('../models').Log;
 
-router.post('/rate/up/:logid/:userid', async (req, res, next) => {
+router.post('/rate/:type/:logid/:userid', async (req, res, next) => {
 	try {
 		const currentUser = await User.findOne({
 			where: { username: req.session.username }
@@ -22,7 +22,7 @@ router.post('/rate/up/:logid/:userid', async (req, res, next) => {
 			})
 			// create the rating
 			const rating = await Rating.create({
-				type: 'up',
+				type: req.params.type.toString(),
 				log_id: logRated.dataValues.id,
 				user_id: userRated.dataValues.id
 			})
