@@ -26,20 +26,22 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
-        // references: {
-        //   model: 'User',
-        //   key: 'id',
-        //   as: 'userId'
-        // }
+        allowNull: false,
+        references: {
+          model: 'User',
+          key: 'id',
+          as: 'user_id'
+        }
       },
       logId: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
-        // references: {
-        //   model: 'Log',
-        //   key: 'id',
-        //   as: 'logId'
-        // }
+        allowNull: false,
+        references: {
+          model: 'Log',
+          key: 'id',
+          as: 'log_id'
+        }
       }
     });
   },

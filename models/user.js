@@ -52,31 +52,31 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = function(models) {
     // associations can be defined here
     User.hasMany(models.Log, {
-      foreignKey: 'logId',
+      foreignKey: 'log_id',
       as: 'logs'
     })
     User.hasMany(models.Comment, {
-      foreignKey: 'commentId',
+      foreignKey: 'comment_id',
       as: 'comments'
     })
     User.hasMany(models.Image, {
-      foreignKey: 'imageId',
+      foreignKey: 'image_id',
       as: 'images'
     })
     User.hasMany(models.Rating, {
-      foreignKey: 'ratingId',
+      foreignKey: 'rating_id',
       as: 'ratings'
     })
     User.hasMany(models.Follower, {
-      foreignKey: 'followerId',
+      foreignKey: 'follower_id',
       as: 'followers'
     })
     User.hasMany(models.Follow, {
-      foreignKey: 'followId',
+      foreignKey: 'follow_id',
       as: 'follows'
     })
     User.hasMany(models.Message, {
-      foreignKey: 'messageId',
+      foreignKey: 'message_id',
       as: 'messages'
     })
   };

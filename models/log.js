@@ -1,41 +1,40 @@
-'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Log = sequelize.define('Log', {
     content: {
-      type: DataTypes.TEXT,
-      defaultValue: null
+      type: DataTypes.TEXT
     },
     date: {
-      type: DataTypes.DATEONLY,
-      defaultValue: null
+      type: DataTypes.DATEONLY
     },
     thumbnail: {
-      type: DataTypes.BLOB,
-      defaultValue: null
+      type: DataTypes.BLOB
     },
     active: {
       type: DataTypes.BOOLEAN,
       defaultValue: true
     }
-  }/*, {}*/);
-  Log.associate = function(models) {
+  });
+  Log.associate = (models) => {
     // associations can be defined here
     Log.belongsTo(models.User, {
-      foreignKey: 'userId',
+      foreignKey: 'user_id',
       onDelete: 'CASCADE'
     })
     Log.hasMany(models.Comment, {
-      foreignKey: 'commentId',
+      foreignKey: 'comment_id',
       as: 'comments'
     })
     Log.hasMany(models.Image, {
-      foreignKey: 'imageId',
+      foreignKey: 'image_id',
       as: 'images'
     })
     Log.hasMany(models.Rating, {
-      foreignKey: 'ratingId',
+      foreignKey: 'rating_id',
       as: 'ratings'
     })
   };
+  // console.log("\nhere is the log that was creataed")
+  // console.log(Log)
   return Log;
-};
+// };
+}

@@ -1,4 +1,4 @@
-'use strict';
+  'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Comment = sequelize.define('Comment', {
     content: {
@@ -9,11 +9,11 @@ module.exports = (sequelize, DataTypes) => {
   Comment.associate = function(models) {
     // associations can be defined here
     Comment.belongsTo(models.User, {
-    	foreignKey: 'userId',
+    	foreignKey: 'user_id',
     	onDelete: 'CASCADE'
     })
     Comment.belongsTo(models.Log, {
-    	foreignKey: 'logId',
+    	foreignKey: 'log_id',
     	onDelete: 'CASCADE'
     })
   };

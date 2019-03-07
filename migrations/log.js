@@ -9,16 +9,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       content: {
-        type: Sequelize.TEXT,
-        defaultValue: null
+        type: Sequelize.TEXT
       },
       date: {
-        type: Sequelize.DATEONLY,
-        defaultValue: null
+        type: Sequelize.DATEONLY
       },
       thumbnail: {
-        type: Sequelize.BLOB,
-        defaultValue: null
+        type: Sequelize.BLOB
       },
       active: {
         type: Sequelize.BOOLEAN,
@@ -35,11 +32,12 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
-        // references: {
-        //   model: 'User',
-        //   key: 'id',
-        //   as: 'userId'
-        // }
+        allowNull: false,
+        references: {
+          model: 'User',
+          key: 'id',
+          as: 'user_id'
+        }
       }
     });
   },

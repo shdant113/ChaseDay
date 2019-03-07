@@ -22,11 +22,12 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
-        // references: {
-        //   model: 'User',
-        //   key: 'id',
-        //   as: 'userId'
-        // }
+        allowNull: false,
+        references: {
+          model: 'User',
+          key: 'id',
+          as: 'user_id'
+        }
       }
     });
   },

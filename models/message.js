@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   Message.associate = function(models) {
     // associations can be defined here
     Message.belongsTo(models.User, {
-      foreignKey: 'userId',
+      foreignKey: 'user_id',
       onDelete: 'CASCADE'
     })
   };

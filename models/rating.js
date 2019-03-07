@@ -6,11 +6,11 @@ module.exports = (sequelize, DataTypes) => {
   Rating.associate = function(models) {
     // associations can be defined here
     Rating.belongsTo(models.Log, {
-    	foreignKey: 'logId',
+    	foreignKey: 'log_id',
     	onDelete: 'CASCADE'
     })
     Rating.belongsTo(models.User, {
-    	foreignKey: 'userId',
+    	foreignKey: 'user_id',
     	onDelete: 'CASCADE'
     })
   };

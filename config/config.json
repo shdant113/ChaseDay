@@ -2,21 +2,21 @@
   "development": {
     "username": "sdant",
     "password": null,
-    "database": "chaseDayDev",
+    "database": "chasedaydev",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
     "username": "sdant",
     "password": null,
-    "database": "database_test",
+    "database": "chasedaydev",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
     "username": "sdant",
     "password": null,
-    "database": "database_production",
+    "database": "chasedaydev",
     "host": "127.0.0.1",
     "dialect": "postgres"
   }

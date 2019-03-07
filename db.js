@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize({
-	database: 'chaseDayDev',
+	database: 'chasedaydev',
 	username: 'sdant',
 	password: null,
 	host: 'localhost',

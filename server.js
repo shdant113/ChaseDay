@@ -9,6 +9,8 @@ const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
+const sequelize = require('sequelize');
+const models = require('./models');
 
 // middleware
 server.use(session({
@@ -25,6 +27,7 @@ server.use(methodOverride('_method'));
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({extended: false}));
 
+
 // controllers
 const testController = require('./controllers/testController');
 const authController = require('./controllers/authController');
@@ -36,11 +39,13 @@ server.use('/api/v1/test', testController);
 
 const PORT = process.env.PORT || 3000
 
-server.listen(PORT, () => {
-	const date = new Date(Date.now())
-	const dayOfWeek = date.toLocaleString('en-US', { weekday: 'long' })
-	console.log(date);
-	console.log('Today is ' + dayOfWeek);
-	console.log(`get to da choppa`)
-	console.log(`da choppa is on port ${PORT}`)
+models.sequelize.sync().then(() => {
+	server.listen(PORT, () => {
+		const date = new Date(Date.now())
+		const dayOfWeek = date.toLocaleString('en-US', { weekday: 'long' })
+		console.log(date);
+		console.log('Today is ' + dayOfWeek);
+		console.log(`get to da choppa`)
+		console.log(`da choppa is on port ${PORT}`)
+	})
 })
