@@ -30,7 +30,7 @@ router.get('/dashboard', async (req, res, next) => {
 				const sevenDaysAgo = date.setUTCDate(sevenDaysTime);
 				const logsToShow = [];
 				const logsByUsers = await Log.findAll({
-					attributes: ['id', 'createdAt', 'user_id'],
+					attributes: ['id', 'createdAt', 'content', 'user_id', 'author'],
 					where: { user_id: followedUsers.dataValues.id }
 				})
 				if (logsByUsers.length > 0) {
@@ -42,7 +42,7 @@ router.get('/dashboard', async (req, res, next) => {
 					}
 				}
 				const otherLogs = await Log.findAll({
-					attributes: ['id', 'createdAt', 'user_id']
+					attributes: ['id', 'createdAt', 'content', 'user_id', 'author']
 				});
 				if (otherLogs.length > 0) {
 					for (let i = 0; i < otherLogs.length; i++) {
@@ -57,7 +57,7 @@ router.get('/dashboard', async (req, res, next) => {
 				})
 			} else {
 				const newLogs = await Log.findAll({
-					attributes: ['id', 'createdAt', 'content', 'user_id']
+					attributes: ['id', 'createdAt', 'content', 'user_id', 'author']
 				});
 				if (newLogs.length > 0) {
 					for (let i = 0; i < newLogs.length; i++) {
@@ -78,7 +78,7 @@ router.get('/dashboard', async (req, res, next) => {
 	} else {
 		try {
 			const newLogs = await Log.findAll({
-				attributes: ['id', 'createdAt', 'content', 'user_id']
+				attributes: ['id', 'createdAt', 'content', 'user_id', 'author']
 			});
 			if (newLogs.length > 0) {
 				for (let i = 0; i < newLogs.length; i++) {
@@ -107,17 +107,19 @@ router.post('/new_log', async (req, res, next) => {
 		const currentUser = await User.findOne({
 			where: { username: req.session.username }
 		})
+		console.log(currentUser.dataValues.username)
 		const createLog = await Log.create({
 			content: req.body.content,
 			date: req.body.date,
 			thumbnail: req.body.thumbnail,
+			author: currentUser.dataValues.username,
 			user_id: currentUser.dataValues.id
 		})
 		res.json({
 			status: 200,
 			data: {
 				log: createLog,
-				message: `new log created by ${createLog.user_id}.`
+				message: `new log created by ${createLog.author}.`
 			}
 		})
 	} catch (err) {

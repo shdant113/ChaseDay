@@ -52,7 +52,6 @@ router.post('/login', async (req, res, next) => {
 			if (bcrypt.compareSync(req.body.password, currentUser.password)) {
 				req.session._id = currentUser._id;
 				req.session.username = currentUser.username;
-				// console.log(req.session.username)
 				req.session.logged = true;
 				res.json({
 					status: 200,
@@ -90,8 +89,5 @@ router.post('/logout', async (req, res, next) => {
 		next(err)
 	}
 })
-
-
-
 
 module.exports = router;

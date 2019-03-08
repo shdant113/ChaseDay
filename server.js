@@ -12,6 +12,7 @@ const methodOverride = require('method-override');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 const fs = require('fs');
+const cors = require('cors');
 
 // requirements
 const sequelize = require('sequelize');
@@ -32,6 +33,14 @@ server.use(methodOverride('_method'));
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({extended: false}));
 
+// cors
+const corsOptions = {
+	origin: process.env.CLIENT_APP_URI,
+	credentials: true,
+	optionsSuccessStatus: 200
+}
+
+server.use(cors(corsOptions));
 
 // controllers
 const testController = require('./controllers/testController');
@@ -52,7 +61,7 @@ server.use('/api/v1/chaseDay/auth', authController);
 server.use('/api/v1/test', testController);
 
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3001
 
 models.sequelize.sync().then(() => {
 	server.listen(PORT, () => {

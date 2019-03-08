@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
     thumbnail: {
       type: DataTypes.BLOB
     },
+    author: {
+      type: DataTypes.STRING
+    },
     active: {
       type: DataTypes.BOOLEAN,
       defaultValue: true

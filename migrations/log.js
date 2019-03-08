@@ -17,6 +17,9 @@ module.exports = {
       thumbnail: {
         type: Sequelize.BLOB
       },
+      author: {
+        type: Sequelize.STRING
+      },
       active: {
         type: Sequelize.BOOLEAN,
         defaultValue: true
