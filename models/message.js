@@ -4,6 +4,10 @@ module.exports = (sequelize, DataTypes) => {
     content: {
     	type: DataTypes.TEXT,
     	allowNull: false
+    },
+    active: {
+      type: DataTypes.BOOLEAN,
+      default: true
     }
   }/*, {}*/);
   Message.associate = function(models) {
