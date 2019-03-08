@@ -38,6 +38,8 @@ const userController = require('./controllers/userController');
 const ratingsController = require('./controllers/ratingsController');
 const commentsController = require('./controllers/commentsController');
 const followsController = require('./controllers/followsController');
+const messageController = require('./controllers/messageController');
+server.use('/api/v1/chaseDay/messages', messageController);
 server.use('/api/v1/chaseDay/follows', followsController);
 server.use('/api/v1/chaseDay/comments', commentsController);
 server.use('/api/v1/chaseDay/ratings', ratingsController);

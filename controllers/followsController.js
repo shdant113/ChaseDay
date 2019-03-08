@@ -17,9 +17,17 @@ router.get('/following_users', async (req, res, next) => {
 			attributes: ['id', 'follow_id'],
 			where: { user_id: currentUser.dataValues.id }
 		})
+		const followsByName = []
+		for (let i = 0; i < following.length; i++) {
+			const followsNames = await User.findAll({
+				attributes: ['username'],
+				where: { id: follows[i].dataValues.follow_id }
+			})
+			followsByName.push(followsNames[i].dataValues.username)
+		}
 		res.json({
 			status: 200,
-			data: following
+			data: followsByName
 		})
 	} catch (err) {
 		console.log(err)
