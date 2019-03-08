@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     active: {
       type: DataTypes.BOOLEAN,
-      default: true
+      defaultValue: true
     }
   }/*, {}*/);
   Message.associate = function(models) {

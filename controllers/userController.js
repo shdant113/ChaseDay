@@ -4,6 +4,9 @@ const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const User = require('../models').User;
 const Log = require('../models').Log;
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+const fs = require('fs');
 
 
   ///////////////////
@@ -13,7 +16,7 @@ const Log = require('../models').Log;
 router.get('/user_profile/:id', async (req, res, next) => {
 	try {
 		const userProfile = await User.findOne({
-			attributes: ['id', 'username', 'firstName', 'lastName', 'location', 'facebook', 'twitter', 'youtube', 'signature', 'bio', 'createdAt'],
+			attributes: ['id', 'username', 'firstName', 'lastName', 'location', 'facebook', 'twitter', 'youtube', 'signature', 'bio', 'createdAt', 'profilePhoto', 'coverPhoto'],
 			where: { id: req.params.id }
 		})
 		const userLogs = await Log.findAll({
@@ -94,7 +97,7 @@ router.put('/update_settings/:id', async (req, res, next) => {
 router.get('/profile_settings/:id', async (req, res, next) => {
 	try {
 		const currentUser = await User.findOne({
-			attributes: ['id', 'firstName', 'lastName', 'location', 'facebook', 'twitter', 'youtube', 'signature'],
+			attributes: ['id', 'firstName', 'lastName', 'location', 'facebook', 'twitter', 'youtube', 'signature', 'bio', 'profilePhoto', 'coverPhoto'],
 			where: { username: req.session.username }
 		})
 		res.json({
@@ -110,7 +113,7 @@ router.get('/profile_settings/:id', async (req, res, next) => {
 router.put('/update_profile_settings/:id', async (req, res, next) => {
 	try {
 		const currentUser = await User.findOne({
-			attributes: ['id', 'firstName', 'lastName', 'location', 'facebook', 'twitter', 'youtube', 'signature'],
+			attributes: ['id', 'firstName', 'lastName', 'location', 'facebook', 'twitter', 'youtube', 'signature', 'bio', 'profilePhoto', 'coverPhoto'],
 			where: { username: req.session.username }
 		})
 		const updateUser = await currentUser.updateAttributes({
@@ -120,7 +123,10 @@ router.put('/update_profile_settings/:id', async (req, res, next) => {
 			facebook: req.body.facebook,
 			twitter: req.body.twitter,
 			youtube: req.body.youtube,
-			signature: req.body.signature
+			signature: req.body.signature,
+			bio: req.body.bio,
+			profilePhoto: req.body.profilePhoto,
+			coverPhoto: req.body.coverPhoto
 		})
 		res.json({
 			status: 200,
@@ -133,45 +139,45 @@ router.put('/update_profile_settings/:id', async (req, res, next) => {
 	}
 })
 
-  //////////////////
- ///* EDIT BIO *///
-//////////////////
+//   //////////////////
+//  ///* EDIT BIO *///
+// //////////////////
 
-router.get('/profile_settings/bio/:id', async (req, res, next) => {
-	try {
-		const currentUser = await User.findOne({
-			attributes: ['id', 'bio'],
-			where: { username: req.session.username }
-		})
-		res.json({
-			status: 200,
-			data: currentUser
-		})
-	} catch (err) {
-		console.log(err)
-		next(err)
-	}
-})
+// router.get('/profile_settings/bio/:id', async (req, res, next) => {
+// 	try {
+// 		const currentUser = await User.findOne({
+// 			attributes: ['id', 'bio'],
+// 			where: { username: req.session.username }
+// 		})
+// 		res.json({
+// 			status: 200,
+// 			data: currentUser
+// 		})
+// 	} catch (err) {
+// 		console.log(err)
+// 		next(err)
+// 	}
+// })
 
-router.put('/update_profile_settings/bio/:id', async (req, res, next) => {
-	try {
-		const currentUser = await User.findOne({
-			attributes: ['id', 'bio'],
-			where: { username: req.session.username }
-		})
-		const updateUser = await currentUser.updateAttributes({
-			bio: req.body.bio
-		})
-		res.json({
-			status: 200,
-			data: updateUser,
-			message: `Updated ${updateUser.username}.`
-		})
-	} catch (err) {
-		console.log(err)
-		next(err)
-	}
-})
+// router.put('/update_profile_settings/bio/:id', async (req, res, next) => {
+// 	try {
+// 		const currentUser = await User.findOne({
+// 			attributes: ['id', 'bio'],
+// 			where: { username: req.session.username }
+// 		})
+// 		const updateUser = await currentUser.updateAttributes({
+// 			bio: req.body.bio
+// 		})
+// 		res.json({
+// 			status: 200,
+// 			data: updateUser,
+// 			message: `Updated ${updateUser.username}.`
+// 		})
+// 	} catch (err) {
+// 		console.log(err)
+// 		next(err)
+// 	}
+// })
 
   /////////////////////
  ///* DELETE USER *///
