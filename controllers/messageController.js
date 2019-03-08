@@ -3,13 +3,17 @@ const router = express.Router();
 const Message = require('../models').Message;
 const User = require('../models').User;
 
+
+  ///////////////////
+ /* READ MESSAGES */
+///////////////////
+
 router.get('/read_messages', async (req, res, next) => {
 	try {
 		const currentUser = await User.findOne({
 			attributes: ['id'],
 			where: { username: req.session.username }
 		})
-		console.log(currentUser.dataValues.username)
 		const receivedMessages = await Message.findAll({
 			attributes: ['id', 'content', 'createdAt', 'recip_id', 'sender_id'],
 			where: { recip_id: currentUser.dataValues.id }
@@ -49,6 +53,10 @@ router.get('/read_messages', async (req, res, next) => {
 	}
 })
 
+  ////////////////////
+ /* SEND A MESSAGE */
+////////////////////
+
 router.post('/new_message/:recipient', async (req, res, next) => {
 	try {
 		const currentUser = await User.findOne({
@@ -65,6 +73,40 @@ router.post('/new_message/:recipient', async (req, res, next) => {
 			status: 200,
 			data: sendMessage
 		})
+	} catch (err) {
+		console.log(err)
+		next(err)
+	}
+})
+
+  /////////////////////
+ /* ERASE A MESSAGE */
+/////////////////////
+
+router.delete('/erase_message/:id', async (req, res, next) => {
+	try {
+		const currentUser = await User.findOne({
+			attributes: ['id', 'username'],
+			where: { username: req.session.username }
+		})
+		const messageToErase = await Message.findOne({
+			attributes: ['id', 'recip_id'],
+			where: { id: req.params.id }
+		})
+		if (currentUser.dataValues.id == messageToErase.dataValues.recip_id) {
+			const messageToErase = await Message.destroy({
+				where: { id: req.params.id }
+			})
+			res.json({
+				status: 200,
+				message: 'Message erased.'
+			})
+		} else {
+			res.json({
+				status: 200,
+				message: 'Load no access page.'
+			})
+		}
 	} catch (err) {
 		console.log(err)
 		next(err)
