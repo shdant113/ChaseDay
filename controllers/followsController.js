@@ -3,6 +3,10 @@ const router = express.Router();
 const User = require('../models').User;
 const Follow = require('../models').Follow;
 
+  ///////////////////
+ /* SEE FOLLOWING */
+///////////////////
+
 router.get('/following_users', async (req, res, next) => {
 	try {
 		const currentUser = await User.findOne({
@@ -22,6 +26,10 @@ router.get('/following_users', async (req, res, next) => {
 		next(err)
 	}
 })
+
+  ///////////////////
+ /* SEE FOLLOWERS */
+///////////////////
 
 router.get('/followers', async (req, res, next) => {
 	try {
@@ -52,6 +60,10 @@ router.get('/followers', async (req, res, next) => {
 	}
 })
 
+  ////////////////////
+ /* FOLLOW SOMEONE */
+////////////////////
+
 router.post('/follow_user/:userid', async (req, res, next) => {
 	try {
 		const currentUser = await User.findOne({
@@ -75,6 +87,10 @@ router.post('/follow_user/:userid', async (req, res, next) => {
 		next(err)
 	}
 })
+
+  //////////////////////
+ /* UNFOLLOW SOMEONE */
+//////////////////////
 
 router.delete('/unfollow_user/:followid', async (req, res, next) => {
 	try {

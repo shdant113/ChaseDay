@@ -19,14 +19,22 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
-      userId: {
+      sender_id: {
         type: Sequelize.INTEGER,
-        onDelete: 'CASCADE',
         allowNull: false,
         references: {
           model: 'User',
           key: 'id',
-          as: 'user_id'
+          as: 'sender_id'
+        }
+      },
+      recip_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'User',
+          key: 'id',
+          as: 'recip_id'
         }
       }
     });
