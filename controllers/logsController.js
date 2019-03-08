@@ -25,7 +25,6 @@ router.get('/dashboard', async (req, res, next) => {
 				attributes: ['id'],
 				where: { user_id: currentUser.dataValues.id }
 			})
-			// console.log(followedUsers)
 			if (followedUsers.length > 0) {
 				const sevenDaysTime = time - (7 * 24 * 60 * 60 * 1000);
 				const sevenDaysAgo = date.setUTCDate(sevenDaysTime);
@@ -114,7 +113,7 @@ router.post('/new_log', async (req, res, next) => {
 			thumbnail: req.body.thumbnail,
 			user_id: currentUser.dataValues.id
 		})
-		await res.json({
+		res.json({
 			status: 200,
 			data: {
 				log: createLog,

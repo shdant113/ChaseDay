@@ -3,6 +3,34 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const User = require('../models').User;
+const Log = require('../models').Log;
+
+
+  ///////////////////
+ /* GO TO PROFILE */
+///////////////////
+
+router.get('/user_profile/:id', async (req, res, next) => {
+	try {
+		const userProfile = await User.findOne({
+			attributes: ['id', 'username', 'firstName', 'lastName', 'location', 'facebook', 'twitter', 'youtube', 'signature', 'bio', 'createdAt'],
+			where: { id: req.params.id }
+		})
+		const userLogs = await Log.findAll({
+			where: { user_id: req.params.id}
+		})
+		res.json({
+			status: 200,
+			data: {
+				user: userProfile,
+				logs: userLogs
+			}
+		})
+	} catch (err) {
+		console.log(err)
+		next(err)
+	}
+})	
 
 
   //////////////////////
