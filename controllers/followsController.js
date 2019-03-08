@@ -23,6 +23,35 @@ router.get('/following_users', async (req, res, next) => {
 	}
 })
 
+router.get('/followers', async (req, res, next) => {
+	try {
+		const currentUser = await User.findOne({
+			attributes: ['id'],
+			where: { username: req.session.username }
+		})
+		const followers = await Follow.findAll({
+			attributes: ['id', 'user_id'],
+			where: { follow_id: currentUser.dataValues.id }
+		})
+		const followersByName = []
+		for (let i = 0; i < followers.length; i++) {
+			const followersNames = await User.findAll({
+				attributes: ['username'],
+				where: { id: followers[i].dataValues.user_id }
+			})
+			followersByName.push(followersNames[i].dataValues.username)
+		}
+		console.log(followersByName)
+		res.json({
+			status: 200,
+			data: followersByName
+		})
+	} catch (err) {
+		console.log(err)
+		next(err)
+	}
+})
+
 router.post('/follow_user/:userid', async (req, res, next) => {
 	try {
 		const currentUser = await User.findOne({
