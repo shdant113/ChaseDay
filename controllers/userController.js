@@ -64,7 +64,7 @@ router.get('/user_profile/:id', async (req, res, next) => {
 router.get('/account_settings', async (req, res, next) => {
 	try {
 		const currentUser = await User.findOne({
-			attributes: ['id', 'username', 'password', 'email', 'firstName', 'lastName'],
+			attributes: ['id', 'username', 'password', 'email', 'firstName', 'lastName', 'location', 'facebook', 'twitter', 'youtube', 'signature', 'bio', 'profilePhoto', 'coverPhoto'],
 			where: { username: req.session.username }
 		})
 		console.log(currentUser)
@@ -97,47 +97,6 @@ router.put('/update_settings/:id', async (req, res, next) => {
 			username: req.body.username,
 			email: req.body.email,
 			// password: hashPassword
-		})
-		req.session.username = updateUser.username;
-		req.session.password = updateUser.password;
-		res.json({
-			status: 200,
-			data: updateUser,
-			message: `Updated ${updateUser.username}.`
-		})
-	} catch (err) {
-		console.log(err)
-		next(err)
-	}
-})
-
-  //////////////////////
- /* PROFILE SETTINGS */
-//////////////////////
-
-router.get('/profile_settings/:id', async (req, res, next) => {
-	try {
-		const currentUser = await User.findOne({
-			attributes: ['id', 'firstName', 'lastName', 'location', 'facebook', 'twitter', 'youtube', 'signature', 'bio', 'profilePhoto', 'coverPhoto'],
-			where: { username: req.session.username }
-		})
-		res.json({
-			status: 200,
-			data: currentUser
-		})
-	} catch (err) {
-		console.log(err)
-		next(err)
-	}
-})
-
-router.put('/update_profile_settings/:id', async (req, res, next) => {
-	try {
-		const currentUser = await User.findOne({
-			attributes: ['id', 'firstName', 'lastName', 'location', 'facebook', 'twitter', 'youtube', 'signature', 'bio', 'profilePhoto', 'coverPhoto'],
-			where: { username: req.session.username }
-		})
-		const updateUser = await currentUser.updateAttributes({
 			firstName: req.body.firstName,
 			lastName: req.body.lastName,
 			location: req.body.location,
@@ -149,6 +108,8 @@ router.put('/update_profile_settings/:id', async (req, res, next) => {
 			profilePhoto: req.body.profilePhoto,
 			coverPhoto: req.body.coverPhoto
 		})
+		req.session.username = updateUser.username;
+		// req.session.password = updateUser.password;
 		res.json({
 			status: 200,
 			data: updateUser,
@@ -159,6 +120,55 @@ router.put('/update_profile_settings/:id', async (req, res, next) => {
 		next(err)
 	}
 })
+
+//   //////////////////////
+//  /* PROFILE SETTINGS */
+// //////////////////////
+
+// router.get('/profile_settings/:id', async (req, res, next) => {
+// 	try {
+// 		const currentUser = await User.findOne({
+// 			attributes: ['id', 'firstName', 'lastName', 'location', 'facebook', 'twitter', 'youtube', 'signature', 'bio', 'profilePhoto', 'coverPhoto'],
+// 			where: { username: req.session.username }
+// 		})
+// 		res.json({
+// 			status: 200,
+// 			data: currentUser
+// 		})
+// 	} catch (err) {
+// 		console.log(err)
+// 		next(err)
+// 	}
+// })
+
+// router.put('/update_profile_settings/:id', async (req, res, next) => {
+// 	try {
+// 		const currentUser = await User.findOne({
+// 			attributes: ['id', 'firstName', 'lastName', 'location', 'facebook', 'twitter', 'youtube', 'signature', 'bio', 'profilePhoto', 'coverPhoto'],
+// 			where: { username: req.session.username }
+// 		})
+// 		const updateUser = await currentUser.updateAttributes({
+// 			firstName: req.body.firstName,
+// 			lastName: req.body.lastName,
+// 			location: req.body.location,
+// 			facebook: req.body.facebook,
+// 			twitter: req.body.twitter,
+// 			youtube: req.body.youtube,
+// 			signature: req.body.signature,
+// 			bio: req.body.bio,
+// 			profilePhoto: req.body.profilePhoto,
+// 			coverPhoto: req.body.coverPhoto
+// 		})
+// 		res.json({
+// 			status: 200,
+// 			data: updateUser,
+// 			message: `Updated ${updateUser.username}.`
+// 		})
+// 	} catch (err) {
+// 		console.log(err)
+// 		next(err)
+// 	}
+// })
 
 //   //////////////////
 //  ///* EDIT BIO *///
