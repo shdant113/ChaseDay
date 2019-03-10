@@ -16,7 +16,7 @@ const fs = require('fs');
 router.get('/', async (req, res, next) => {
 	try {
 		const getUser = await User.findOne({
-			attributes: ['id'],
+			attributes: ['id', 'firstName', 'lastName'],
 			where: { username: req.session.username }
 		})
 		res.json({
