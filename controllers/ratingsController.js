@@ -9,7 +9,7 @@ const Log = require('../models').Log;
  /* RATE A LOG */
 ////////////////
 
-router.post('/rate/:type/:logid/:userid', async (req, res, next) => {
+router.post('/rate/:logid', async (req, res, next) => {
 	try {
 		const currentUser = await User.findOne({
 			where: { username: req.session.username }
@@ -20,16 +20,10 @@ router.post('/rate/:type/:logid/:userid', async (req, res, next) => {
 				attributes: ['id'],
 				where: { id: req.params.logid }
 			})
-			// apply the rating to the user
-			const userRated = await User.findOne({
-				attributes: ['id'],
-				where: { id: req.params.userid }
-			})
 			// create the rating
 			const rating = await Rating.create({
-				type: req.params.type.toString(),
-				log_id: logRated.dataValues.id,
-				user_id: userRated.dataValues.id
+				type: req.body,
+				log_id: logRated.dataValues.id
 			})
 			res.json({
 				status: 200,

@@ -9,6 +9,27 @@ const upload = multer({ dest: 'uploads/' });
 const fs = require('fs');
 
 
+  ////////////////
+ //* GET USER *//
+////////////////
+
+router.get('/', async (req, res, next) => {
+	try {
+		const getUser = await User.findOne({
+			attributes: ['id'],
+			where: { username: req.session.username }
+		})
+		res.json({
+			status: 200,
+			data: getUser
+		})
+	} catch (err) {
+		console.log(err)
+		next(err)
+	}
+})
+
+
   ///////////////////
  /* GO TO PROFILE */
 ///////////////////
@@ -40,10 +61,10 @@ router.get('/user_profile/:id', async (req, res, next) => {
  /* ACCOUNT SETTINGS */
 //////////////////////
 
-router.get('/account_settings/:id', async (req, res, next) => {
+router.get('/account_settings', async (req, res, next) => {
 	try {
 		const currentUser = await User.findOne({
-			attributes: ['id', 'username', 'password', 'email'],
+			attributes: ['id', 'username', 'password', 'email', 'firstName', 'lastName'],
 			where: { username: req.session.username }
 		})
 		console.log(currentUser)
