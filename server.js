@@ -10,7 +10,12 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({
+	dest: 'uploads/',
+	limits: {
+	    fileSize: 10000000
+	} 
+});
 const fs = require('fs');
 const cors = require('cors');
 

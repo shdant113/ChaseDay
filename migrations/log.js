@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.DATEONLY
       },
       thumbnail: {
-        type: Sequelize.BLOB
+        type: Sequelize.STRING
       },
       author: {
         type: Sequelize.STRING

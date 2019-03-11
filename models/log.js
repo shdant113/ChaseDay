@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATEONLY
     },
     thumbnail: {
-      type: DataTypes.BLOB
+      type: DataTypes.STRING
     },
     author: {
       type: DataTypes.STRING

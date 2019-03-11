@@ -5,7 +5,12 @@ const session = require('express-session');
 const User = require('../models').User;
 const Log = require('../models').Log;
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({
+	dest: 'uploads/',
+	limits: {
+	    fileSize: 10000000
+	} 
+});
 const fs = require('fs');
 
 
@@ -85,13 +90,21 @@ router.get('/account_settings', async (req, res, next) => {
 	}
 })	
 
-router.put('/update_settings/:id', async (req, res, next) => {
+router.put('/update_settings/:id', upload.single('imageFile'), async (req, res, next) => {
 	try {
 		const userToUpdate = await User.findOne({
 			attributes: ['id', 'username', 'password', 'email'],
 			where: { username: req.session.username }
 		})
-		console.log(userToUpdate.username)
+		if (req.file) {
+			const imageFilePath = '../public/images/users' + req.file.filename;
+			const profilePhoto = fs.readFileSync(imageFilePath);
+			profilePhoto.contentType = req.file.mimetype;
+			const updateUser = await userToUpdate.updateAttributes({
+				profilePhoto: profilePhoto
+			})
+			fs.unlinkSync(imageFilePath);
+		}
 		// const hashPassword = bcrypt.hashSync(req.body.password, 12);
 		const updateUser = await userToUpdate.updateAttributes({
 			username: req.body.username,
@@ -105,7 +118,7 @@ router.put('/update_settings/:id', async (req, res, next) => {
 			youtube: req.body.youtube,
 			signature: req.body.signature,
 			bio: req.body.bio,
-			profilePhoto: req.body.profilePhoto,
+			// profilePhoto: profilePhoto,
 			coverPhoto: req.body.coverPhoto
 		})
 		req.session.username = updateUser.username;
@@ -120,6 +133,15 @@ router.put('/update_settings/:id', async (req, res, next) => {
 		next(err)
 	}
 })
+
+router.get('/:id/image', async (req, res) => {
+	const user = await User.findOne({
+		where: { id: req.params.id }
+	});
+	const image = user.profilePhoto;
+	res.set('Content-Type', image.contentType);
+	res.send(image.data);
+});
 
 //   //////////////////////
 //  /* PROFILE SETTINGS */

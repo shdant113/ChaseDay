@@ -24,8 +24,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     location: DataTypes.STRING,
-    profilePhoto: DataTypes.BLOB,
-    coverPhoto: DataTypes.BLOB,
+    profilePhoto: DataTypes.STRING,
+    coverPhoto: DataTypes.STRING,
     bio: {
       defaultValue: null,
       type: DataTypes.TEXT,

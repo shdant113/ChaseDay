@@ -21,33 +21,33 @@ router.get('/read_messages', async (req, res, next) => {
 				active: true
 			}
 		})
-		const receivedUsernames = []
-		for (let i = 0; i < receivedMessages.length; i++) {
-			const receivedNames = await User.findAll({
-				attributes: ['username'],
-				where: { id: receivedMessages[i].dataValues.sender_id }
-			})
-			receivedUsernames.push(receivedNames[i].dataValues.username)
-		}
+		// const receivedUsernames = []
+		// for (let i = 0; i < receivedMessages.length; i++) {
+		// 	const receivedNames = await User.findAll({
+		// 		attributes: ['username'],
+		// 		where: { id: receivedMessages[i].dataValues.sender_id }
+		// 	})
+		// 	receivedUsernames.push(receivedNames[i].dataValues.username)
+		// }
 		const sentMessages = await Message.findAll({
 			attributes: ['id', 'content', 'createdAt', 'recip_id', 'sender_id'],
 			where: { sender_id: currentUser.dataValues.id }
 		})
-		const sentUsernames = []
-		for (let i = 0; i < sentMessages.length; i++) {
-			const sentNames = await User.findAll({
-				attributes: ['username'],
-				where: { id: sentMessages[i].dataValues.recip_id }
-			})
-			sentUsernames.push(sentNames[i].dataValues.username)
-		}
+		// const sentUsernames = []
+		// for (let i = 0; i < sentMessages.length; i++) {
+		// 	const sentNames = await User.findAll({
+		// 		attributes: ['username'],
+		// 		where: { id: sentMessages[i].dataValues.recip_id }
+		// 	})
+		// 	sentUsernames.push(sentNames[i].dataValues.username)
+		// }
 		res.json({
 			status: 200,
 			data: {
 				sent: sentMessages,
-				sentUsernames: sentUsernames,
+				// sentUsernames: sentUsernames,
 				received: receivedMessages,
-				receivedUsernames: receivedUsernames
+				// receivedUsernames: receivedUsernames
 			}
 		})
 	} catch (err) {
