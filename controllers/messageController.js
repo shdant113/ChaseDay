@@ -5,7 +5,7 @@ const User = require('../models').User;
 
 
   ///////////////////
- /* READ MESSAGES */
+ /* LOAD MESSAGES */
 ///////////////////
 
 router.get('/read_messages', async (req, res, next) => {
@@ -55,6 +55,48 @@ router.get('/read_messages', async (req, res, next) => {
 		next(err)
 	}
 })
+
+
+  //////////////////
+ //* OPEN INBOX *//
+//////////////////
+
+router.get('/inbox/:userid', async (req, res, next) => {
+	try {
+		const currentUser = await User.findOne({
+			attributes: ['id'],
+			where: { id: req.params.userid }
+		})
+		// const receivedMessages = await Message.findAll({
+		// 	attributes: ['id', 'recip_id', 'sender_id'],
+		// 	where: { 
+		// 		recip_id: currentUser.dataValues.id,
+		// 		active: true
+		// 	}
+		// })
+		// const sendersNames = await User.findAll({
+		// 	attributes: ['username', 'firstName', 'lastName'],
+		// 	where: { id: receivedMessages.sender_id }
+		// })
+		const inbox = await Message.findAll({
+			 attributes: ['id', 'content', 'createdAt', 'recip_id', 'sender_id'],
+			 where: { recip_id: currentUser.dataValues.id },
+			 include: [{
+			 	model: User,
+			 	as: 'author'
+			 }]
+		})
+		console.log(inbox)
+		res.json({
+			status: 200,
+			data: inbox
+		})
+	} catch (err) {
+		console.log(err)
+		next(err)
+	}
+})
+
 
   ////////////////////
  /* SEND A MESSAGE */

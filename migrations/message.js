@@ -29,7 +29,7 @@ module.exports = {
         references: {
           model: 'User',
           key: 'id',
-          as: 'sender_id'
+          as: 'author'
         }
       },
       recip_id: {
@@ -38,7 +38,7 @@ module.exports = {
         references: {
           model: 'User',
           key: 'id',
-          as: 'recip_id'
+          as: 'recip'
         }
       }
     });
