@@ -3,18 +3,16 @@ const router = express.Router();
 const Message = require('../models').Message;
 const User = require('../models').User;
 
-router.get('/messages', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
 	try {
 		const currentUser = await User.findOne({
 			attributes: ['id'],
-			where: { id: req.params.userid }
+			where: { username: req.session.username }
 		})
 		const messages = await Message.findAll({
-			attributes: ['unread'],
 			where: { 
 				recip_id: currentUser.dataValues.id,
-				active: true,
-				unread: true
+				active: true
 			}
 		})
 		res.json({
