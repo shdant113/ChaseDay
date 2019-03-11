@@ -26,7 +26,7 @@ module.exports = {
         references: {
           model: 'User',
           key: 'id',
-          as: 'user_id'
+          as: 'user'
         }
       },
       logId: {
@@ -36,7 +36,7 @@ module.exports = {
         references: {
           model: 'Log',
           key: 'id',
-          as: 'log_id'
+          as: 'log'
         }
       }
     });

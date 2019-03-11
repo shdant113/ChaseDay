@@ -39,7 +39,16 @@ module.exports = {
         references: {
           model: 'User',
           key: 'id',
-          as: 'user_id'
+          as: 'user'
+        }
+      },
+      ratingId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Rating',
+          key: 'id',
+          as: 'rating'
         }
       }
     });

@@ -23,6 +23,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
+      unread: {
+        type: Sequelize.BOOLEAN
+        allowNull: false,
+        defaultValue: true
+      }
       sender_id: {
         type: Sequelize.INTEGER,
         allowNull: false,

@@ -25,15 +25,15 @@ module.exports = (sequelize, DataTypes) => {
     })
     Log.hasMany(models.Comment, {
       foreignKey: 'comment_id',
-      as: 'comments'
+      as: 'comment'
     })
     Log.hasMany(models.Image, {
       foreignKey: 'image_id',
-      as: 'images'
+      as: 'image'
     })
     Log.hasMany(models.Rating, {
       foreignKey: 'rating_id',
-      as: 'ratings'
+      as: 'rating'
     })
   };
   // console.log("\nhere is the log that was creataed")

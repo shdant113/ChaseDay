@@ -7,11 +7,13 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Rating.belongsTo(models.Log, {
     	foreignKey: 'log_id',
-    	onDelete: 'CASCADE'
+    	onDelete: 'CASCADE',
+      as: 'log'
     })
     Rating.belongsTo(models.User, {
     	foreignKey: 'user_id',
-    	onDelete: 'CASCADE'
+    	onDelete: 'CASCADE',
+      as: 'user'
     })
   };
   return Rating;
