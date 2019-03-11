@@ -67,17 +67,6 @@ router.get('/inbox/:userid', async (req, res, next) => {
 			attributes: ['id'],
 			where: { id: req.params.userid }
 		})
-		// const receivedMessages = await Message.findAll({
-		// 	attributes: ['id', 'recip_id', 'sender_id'],
-		// 	where: { 
-		// 		recip_id: currentUser.dataValues.id,
-		// 		active: true
-		// 	}
-		// })
-		// const sendersNames = await User.findAll({
-		// 	attributes: ['username', 'firstName', 'lastName'],
-		// 	where: { id: receivedMessages.sender_id }
-		// })
 		const inbox = await Message.findAll({
 			 attributes: ['id', 'content', 'createdAt', 'recip_id', 'sender_id'],
 			 where: { recip_id: currentUser.dataValues.id },
@@ -86,7 +75,7 @@ router.get('/inbox/:userid', async (req, res, next) => {
 			 	as: 'author'
 			 }]
 		})
-		console.log(inbox)
+		console.log(inbox[0].dataValues)
 		res.json({
 			status: 200,
 			data: inbox
