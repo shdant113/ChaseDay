@@ -20,7 +20,8 @@ router.post('/rate/:logid', async (req, res, next) => {
 				attributes: ['id'],
 				where: { id: req.params.logid },
 				include: [{
-					model: Rating
+					model: Rating,
+					as: 'log'
 				}]
 			})
 			const rating = await Rating.create({

@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Log.belongsTo(models.User, {
       foreignKey: 'user_id',
+      as: 'user',
       onDelete: 'CASCADE'
     })
     Log.hasMany(models.Comment, {

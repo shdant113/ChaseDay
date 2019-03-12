@@ -30,8 +30,12 @@ router.get('/dashboard', async (req, res, next) => {
 				const sevenDaysAgo = date.setUTCDate(sevenDaysTime);
 				const logsToShow = [];
 				const logsByUsers = await Log.findAll({
-					attributes: ['id', 'createdAt', 'content', 'user_id', 'author'],
-					where: { user_id: followedUsers.dataValues.id }
+					attributes: ['id', 'createdAt', 'content', 'user_id'],
+					where: { user_id: followedUsers.dataValues.id },
+					include: [{
+						model: User,
+						as: 'user'
+					}]
 				})
 				if (logsByUsers.length > 0) {
 					for (let i = 0; i < logsByUsers.length; i++) {
@@ -42,7 +46,11 @@ router.get('/dashboard', async (req, res, next) => {
 					}
 				}
 				const otherLogs = await Log.findAll({
-					attributes: ['id', 'createdAt', 'content', 'user_id', 'author']
+					attributes: ['id', 'createdAt', 'content', 'user_id'],
+					include: [{
+						model: User,
+						as: 'user'
+					}]
 				});
 				if (otherLogs.length > 0) {
 					for (let i = 0; i < otherLogs.length; i++) {
@@ -57,7 +65,11 @@ router.get('/dashboard', async (req, res, next) => {
 				})
 			} else {
 				const newLogs = await Log.findAll({
-					attributes: ['id', 'createdAt', 'content', 'user_id', 'author']
+					attributes: ['id', 'createdAt', 'content', 'user_id'],
+					include: [{
+						model: User,
+						as: 'user'
+					}]
 				});
 				if (newLogs.length > 0) {
 					for (let i = 0; i < newLogs.length; i++) {
@@ -78,7 +90,11 @@ router.get('/dashboard', async (req, res, next) => {
 	} else {
 		try {
 			const newLogs = await Log.findAll({
-				attributes: ['id', 'createdAt', 'content', 'user_id', 'author']
+				attributes: ['id', 'createdAt', 'content', 'user_id'],
+				include: [{
+					model: User,
+					as: 'user'
+				}]
 			});
 			if (newLogs.length > 0) {
 				for (let i = 0; i < newLogs.length; i++) {
@@ -123,6 +139,25 @@ router.get('/dashboard', async (req, res, next) => {
 // 	}
 // })	
 
+
+router.get('/:id', async (req, res, next) => {
+	try {
+		const log = await Log.findOne({
+			where: { id: req.params.id },
+			include: [{
+				model: User,
+				as: 'user'
+			}]
+		})
+		res.json({
+			status: 200,
+			data: log
+		})
+	} catch (err) {
+		console.log(err)
+		next(err)
+	}
+})
 
   /////////////////
  ///* NEW LOG *///
