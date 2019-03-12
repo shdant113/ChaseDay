@@ -13,11 +13,12 @@ const multer = require('multer');
 const upload = multer({
 	dest: 'uploads/',
 	limits: {
-	    fileSize: 10000000
+		fileSize: 10000000
 	} 
 });
 const fs = require('fs');
 const cors = require('cors');
+const { Client } = require('pg');
 
 // requirements
 const sequelize = require('sequelize');
@@ -67,6 +68,21 @@ server.use('/api/v1/test', testController);
 
 
 const PORT = process.env.PORT || 3001
+
+const client = new Client({
+	connectionString: process.env.DATABASE_URL,
+	ssl: true,
+});
+
+client.connect();
+
+client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+	if (err) throw err;
+	for (let row of res.rows) {
+		console.log(JSON.stringify(row));
+	}
+	client.end();
+});
 
 models.sequelize.sync().then(() => {
 	server.listen(PORT, () => {
