@@ -46,10 +46,18 @@ router.get('/user_profile/:id', async (req, res, next) => {
 			attributes: ['id', 'username', 'firstName', 'lastName', 'location', 
 				'facebook', 'twitter', 'youtube', 'signature', 'bio', 'createdAt', 
 				'profilePhoto', 'coverPhoto', 'profileVideo'],
-			where: { id: req.params.id }
+			where: { id: req.params.id },
+			include: [{
+				model: Log,
+				as: 'logs'
+			}]
 		})
 		const userLogs = await Log.findAll({
-			where: { user_id: req.params.id}
+			where: { user_id: req.params.id },
+			include: [{
+				model: User,
+				as: 'user'
+			}]
 		})
 		res.json({
 			status: 200,

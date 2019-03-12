@@ -73,6 +73,15 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      logId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Log',
+          key: 'id',
+          as: 'logs'
+        }
       }
     });
   },
