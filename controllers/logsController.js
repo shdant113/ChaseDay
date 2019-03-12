@@ -166,9 +166,7 @@ router.post('/new_log', async (req, res, next) => {
 		const createLog = await Log.create({
 			content: req.body.content,
 			date: req.body.date,
-			thumbnail: req.body.thumbnail,
-			// this does not update when the user does, so this needs to be changed
-			author: currentUser.dataValues.username,
+			title: req.body.title,
 			user_id: currentUser.dataValues.id
 		})
 		res.json({

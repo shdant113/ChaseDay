@@ -16,7 +16,8 @@ router.post('/register', async (req, res, next) => {
 			email: req.body.email,
 			firstName: req.body.firstName,
 			lastName: req.body.lastName,
-			password: hashPassword
+			password: hashPassword,
+			location: req.body.location
 		})
 		req.session.logged = true;
 		req.session.username = user.username;

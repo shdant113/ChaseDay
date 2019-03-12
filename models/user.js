@@ -23,12 +23,24 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    location: DataTypes.STRING,
-    profilePhoto: DataTypes.STRING,
-    coverPhoto: DataTypes.STRING,
-    profileVideo: DataTypes.STRING,
+    location: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    profilePhoto: {
+      type: DataTypes.STRING,
+      defaultValue: 'https://i.pinimg.com/originals/54/63/18/5463185be38511d42a9f253f57cd0f98.png'
+    },
+    coverPhoto: {
+      type: DataTypes.STRING,
+      defaultValue: 'https://puu.sh/CYV0a/25d0034486.png'
+    },
+    profileVideo: {
+      type: DataTypes.STRING,
+      defaultValue: null
+    },
     bio: {
-      defaultValue: null,
+      defaultValue: "I haven't filled in my bio yet, but I will soon!",
       type: DataTypes.TEXT,
     },
     facebook: {

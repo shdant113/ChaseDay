@@ -1,16 +1,16 @@
 module.exports = (sequelize, DataTypes) => {
   const Log = sequelize.define('Log', {
     content: {
-      type: DataTypes.TEXT
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
+    title: {
+      type: DataTypes.TEXT,
+      allowNull: false
     },
     date: {
-      type: DataTypes.DATEONLY
-    },
-    thumbnail: {
-      type: DataTypes.STRING
-    },
-    author: {
-      type: DataTypes.STRING
+      type: DataTypes.DATEONLY,
+      allowNull: false
     },
     active: {
       type: DataTypes.BOOLEAN,

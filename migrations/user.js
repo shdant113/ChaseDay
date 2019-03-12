@@ -31,20 +31,23 @@ module.exports = {
         allowNull: false
       },
       location: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       profilePhoto: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: 'https://i.pinimg.com/originals/54/63/18/5463185be38511d42a9f253f57cd0f98.png'
       },
       coverPhoto: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: 'https://puu.sh/CYV0a/25d0034486.png'
       },
       profileVideo: {
         type: Sequelize.STRING
       }
       bio: {
         type: Sequelize.TEXT,
-        defaultValue: null
+        defaultValue: "I haven't filled in my bio yet, but I will soon!"
       },
       facebook: {
         type: Sequelize.STRING,

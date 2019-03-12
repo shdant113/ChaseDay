@@ -9,16 +9,16 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       content: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        allowNull: false
       },
+      title: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      }
       date: {
-        type: Sequelize.DATEONLY
-      },
-      thumbnail: {
-        type: Sequelize.STRING
-      },
-      author: {
-        type: Sequelize.STRING
+        type: Sequelize.DATEONLY,
+        allowNull: false
       },
       active: {
         type: Sequelize.BOOLEAN,
