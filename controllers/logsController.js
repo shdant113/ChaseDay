@@ -31,7 +31,10 @@ router.get('/dashboard', async (req, res, next) => {
 				const logsToShow = [];
 				const logsByUsers = await Log.findAll({
 					attributes: ['id', 'createdAt', 'content', 'user_id'],
-					where: { user_id: followedUsers.dataValues.id },
+					where: { 
+						user_id: followedUsers.dataValues.id,
+						active: true
+					},
 					include: [{
 						model: User,
 						as: 'user'
@@ -47,6 +50,7 @@ router.get('/dashboard', async (req, res, next) => {
 				}
 				const otherLogs = await Log.findAll({
 					attributes: ['id', 'createdAt', 'content', 'user_id'],
+					where: { active: true },
 					include: [{
 						model: User,
 						as: 'user'
@@ -66,6 +70,7 @@ router.get('/dashboard', async (req, res, next) => {
 			} else {
 				const newLogs = await Log.findAll({
 					attributes: ['id', 'createdAt', 'content', 'user_id'],
+					where: { active: true },
 					include: [{
 						model: User,
 						as: 'user'
@@ -91,6 +96,7 @@ router.get('/dashboard', async (req, res, next) => {
 		try {
 			const newLogs = await Log.findAll({
 				attributes: ['id', 'createdAt', 'content', 'user_id'],
+				where: { active: true },
 				include: [{
 					model: User,
 					as: 'user'

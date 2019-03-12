@@ -53,7 +53,10 @@ router.get('/user_profile/:id', async (req, res, next) => {
 			}]
 		})
 		const userLogs = await Log.findAll({
-			where: { user_id: req.params.id },
+			where: { 
+				user_id: req.params.id,
+				active: true 
+			},
 			include: [{
 				model: User,
 				as: 'user'
