@@ -98,6 +98,32 @@ router.get('/dashboard', async (req, res, next) => {
 	}
 })
 
+
+//   ///////////////////////////
+//  ///* GET LOG USER INFO *///
+// ///////////////////////////
+
+// router.get('/log_users', async (req, res, next) => {
+// 	try {
+// 		const logs = await Log.findAll({
+// 			attributes: ['id'],
+// 			include: [{
+// 				model: User,
+// 				as: 'logs'
+// 			}]
+// 		})
+// 		console.log('sending back response')
+// 		res.json({
+// 			status: 200,
+// 			data: logs
+// 		})
+// 	} catch (err) {
+// 		console.log(err)
+// 		return(err)
+// 	}
+// })	
+
+
   /////////////////
  ///* NEW LOG *///
 /////////////////

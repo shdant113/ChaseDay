@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     location: DataTypes.STRING,
     profilePhoto: DataTypes.STRING,
     coverPhoto: DataTypes.STRING,
+    profileVideo: DataTypes.STRING,
     bio: {
       defaultValue: null,
       type: DataTypes.TEXT,

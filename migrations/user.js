@@ -39,6 +39,9 @@ module.exports = {
       coverPhoto: {
         type: Sequelize.STRING
       },
+      profileVideo: {
+        type: Sequelize.STRING
+      }
       bio: {
         type: Sequelize.TEXT,
         defaultValue: null

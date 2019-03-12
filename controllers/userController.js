@@ -21,7 +21,8 @@ const fs = require('fs');
 router.get('/', async (req, res, next) => {
 	try {
 		const getUser = await User.findOne({
-			attributes: ['id', 'firstName', 'lastName'],
+			attributes: ['id', 'firstName', 'lastName', 'profilePhoto',
+				'coverPhoto', 'profileVideo'],
 			where: { username: req.session.username }
 		})
 		res.json({
@@ -42,7 +43,9 @@ router.get('/', async (req, res, next) => {
 router.get('/user_profile/:id', async (req, res, next) => {
 	try {
 		const userProfile = await User.findOne({
-			attributes: ['id', 'username', 'firstName', 'lastName', 'location', 'facebook', 'twitter', 'youtube', 'signature', 'bio', 'createdAt', 'profilePhoto', 'coverPhoto'],
+			attributes: ['id', 'username', 'firstName', 'lastName', 'location', 
+				'facebook', 'twitter', 'youtube', 'signature', 'bio', 'createdAt', 
+				'profilePhoto', 'coverPhoto', 'profileVideo'],
 			where: { id: req.params.id }
 		})
 		const userLogs = await Log.findAll({
@@ -69,7 +72,9 @@ router.get('/user_profile/:id', async (req, res, next) => {
 router.get('/account_settings', async (req, res, next) => {
 	try {
 		const currentUser = await User.findOne({
-			attributes: ['id', 'username', 'password', 'email', 'firstName', 'lastName', 'location', 'facebook', 'twitter', 'youtube', 'signature', 'bio', 'profilePhoto', 'coverPhoto'],
+			attributes: ['id', 'username', 'password', 'email', 'firstName', 'lastName', 
+				'location', 'facebook', 'twitter', 'youtube', 'signature', 'bio', 
+				'profilePhoto', 'coverPhoto'],
 			where: { username: req.session.username }
 		})
 		console.log(currentUser)
@@ -96,15 +101,15 @@ router.put('/update_settings/:id', upload.single('imageFile'), async (req, res, 
 			attributes: ['id', 'username', 'password', 'email'],
 			where: { username: req.session.username }
 		})
-		if (req.file) {
-			const imageFilePath = '../public/images/users' + req.file.filename;
-			const profilePhoto = fs.readFileSync(imageFilePath);
-			profilePhoto.contentType = req.file.mimetype;
-			const updateUser = await userToUpdate.updateAttributes({
-				profilePhoto: profilePhoto
-			})
-			fs.unlinkSync(imageFilePath);
-		}
+		// if (req.file) {
+		// 	const imageFilePath = '../public/images/users' + req.file.filename;
+		// 	const profilePhoto = fs.readFileSync(imageFilePath);
+		// 	profilePhoto.contentType = req.file.mimetype;
+		// 	const updateUser = await userToUpdate.updateAttributes({
+		// 		profilePhoto: profilePhoto
+		// 	})
+		// 	fs.unlinkSync(imageFilePath);
+		// }
 		// const hashPassword = bcrypt.hashSync(req.body.password, 12);
 		const updateUser = await userToUpdate.updateAttributes({
 			username: req.body.username,
@@ -118,8 +123,9 @@ router.put('/update_settings/:id', upload.single('imageFile'), async (req, res, 
 			youtube: req.body.youtube,
 			signature: req.body.signature,
 			bio: req.body.bio,
-			// profilePhoto: profilePhoto,
-			coverPhoto: req.body.coverPhoto
+			profilePhoto: req.body.profilePhoto,
+			coverPhoto: req.body.coverPhoto,
+			profileVideo: req.body.profileVideo
 		})
 		req.session.username = updateUser.username;
 		// req.session.password = updateUser.password;
@@ -134,14 +140,14 @@ router.put('/update_settings/:id', upload.single('imageFile'), async (req, res, 
 	}
 })
 
-router.get('/:id/image', async (req, res) => {
-	const user = await User.findOne({
-		where: { id: req.params.id }
-	});
-	const image = user.profilePhoto;
-	res.set('Content-Type', image.contentType);
-	res.send(image.data);
-});
+// router.get('/:id/image', async (req, res) => {
+// 	const user = await User.findOne({
+// 		where: { id: req.params.id }
+// 	});
+// 	const image = user.profilePhoto;
+// 	res.set('Content-Type', image.contentType);
+// 	res.send(image.data);
+// });
 
 //   //////////////////////
 //  /* PROFILE SETTINGS */

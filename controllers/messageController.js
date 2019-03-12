@@ -3,6 +3,10 @@ const router = express.Router();
 const Message = require('../models').Message;
 const User = require('../models').User;
 
+  ///////////////////////
+ //* CHECK IF UNREAD *//
+///////////////////////
+
 router.get('/', async (req, res, next) => {
 	try {
 		const currentUser = await User.findOne({

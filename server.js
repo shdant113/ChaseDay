@@ -40,7 +40,7 @@ server.use(bodyParser.urlencoded({extended: false}));
 
 // cors
 const corsOptions = {
-	origin: process.env.CLIENT_APP_URI,
+	origin: process.env.CLIENT_APP_URI || 'https://www.youtube.com',
 	credentials: true,
 	optionsSuccessStatus: 200
 }
