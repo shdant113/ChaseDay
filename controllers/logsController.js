@@ -213,21 +213,27 @@ router.put('/update_log/:id', async (req, res, next) => {
 		const currentUser = await User.findOne({
 			where: { username: req.session.username }
 		})
-		const logToUpdate = await Log.findOne({
-			attributes: ['id', 'content', 'date', 'thumbnail'],
-			where: { id: req.params.id, user_id: currentUser.dataValues.id }
-		})
-		console.log(logToUpdate)
-		const updateLog = await logToUpdate.updateAttributes({
-			content: req.body.content,
-			date: req.body.date,
-			thumbnail: req.body.thumbnail
-		})
-		res.json({
-			status: 200,
-			data: updateLog,
-			message: `Updated log ${updateLog.id}.`
-		})
+		if (currentUser) {
+			const logToUpdate = await Log.findOne({
+				where: { id: req.params.id }
+			})
+			console.log(logToUpdate)
+			const updateLog = await logToUpdate.updateAttributes({
+				content: req.body.content,
+				date: req.body.date,
+				title: req.body.title
+			})
+			res.json({
+				status: 200,
+				data: updateLog,
+				message: `Updated log ${updateLog.id}.`
+			})
+		} else {
+			res.json({
+				status: 200,
+				message: 'Load no access page.'
+			})
+		}
 	} catch (err) {
 		console.log(err)
 		next(err)
