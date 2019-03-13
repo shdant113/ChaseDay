@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models').User;
 const Log = require('../models').Log;
 const Follow = require('../models').Follow;
+const sequelize = require('sequelize');
 
 
   ///////////////////
@@ -30,7 +31,9 @@ router.get('/dashboard', async (req, res, next) => {
 				const sevenDaysAgo = date.setUTCDate(sevenDaysTime);
 				const logsToShow = [];
 				const logsByUsers = await Log.findAll({
-					attributes: ['id', 'createdAt', 'content', 'user_id'],
+					attributes: [
+						'id', 'createdAt', 'content', 'user_id', 'title', 'date',
+					],
 					where: { 
 						user_id: followedUsers.dataValues.id,
 						active: true
@@ -49,7 +52,9 @@ router.get('/dashboard', async (req, res, next) => {
 					}
 				}
 				const otherLogs = await Log.findAll({
-					attributes: ['id', 'createdAt', 'content', 'user_id'],
+					attributes: [
+						'id', 'createdAt', 'content', 'user_id', 'title', 'date',
+					],
 					where: { active: true },
 					include: [{
 						model: User,
@@ -69,7 +74,9 @@ router.get('/dashboard', async (req, res, next) => {
 				})
 			} else {
 				const newLogs = await Log.findAll({
-					attributes: ['id', 'createdAt', 'content', 'user_id'],
+					attributes: [
+						'id', 'createdAt', 'content', 'user_id', 'title', 'date',
+					],
 					where: { active: true },
 					include: [{
 						model: User,
@@ -95,7 +102,9 @@ router.get('/dashboard', async (req, res, next) => {
 	} else {
 		try {
 			const newLogs = await Log.findAll({
-				attributes: ['id', 'createdAt', 'content', 'user_id'],
+				attributes: [
+					'id', 'createdAt', 'content', 'user_id', 'title', 'date',
+				],
 				where: { active: true },
 				include: [{
 					model: User,
