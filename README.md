@@ -1,3 +1,25 @@
+# ChaseDay
+
+#### Designed and built by Spencer Dant
+
+ChaseDay is currently under further development. Deployed site is temporary and will be taken down at the conclusion of development. 
+\
+https://chaseday.herokuapp.com/
+
+---
+
+This is the server-side repository for ChaseDay. For the client-side repository and for more information about ChaseDay, visit https://github.com/shdant113/chaseDay-client. Check out my other projects on Github!
+
+---
+
+ChaseDay is decoupled, built with React and Express with a SQL database. Users on ChaseDay can post logs of their storm chasing experiences out in the plains or wherever they may be, communicate with one another via private messaging, and show off their highlights on their profile. 
+
+Forthcoming features on ChaseDay include dynamic group messaging, improved user interface with direct image uploading and persistence, and a revamped design to make the user experience both simple, efficient, and more visually appealing. Additional upcoming features to the logging functionality include the ability to comment, rate, share to social media, save favorite logs, and follow favorite chasers.
+
+The following is part of the initial planning process.
+
+---
+
 ## Wireframes
 
 https://puu.sh/CVK3o/3abf2e15dd.png
